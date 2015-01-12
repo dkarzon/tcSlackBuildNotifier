@@ -43,6 +43,7 @@ public class SlackNotificationImpl implements SlackNotification {
     private String teamName;
     private String token;
     private String iconUrl;
+    private String iconUrlFailure;
     private String content;
     private SlackNotificationPayloadContent payload;
     private Integer resultCode;
@@ -162,10 +163,17 @@ public class SlackNotificationImpl implements SlackNotification {
             if (this.teamName == null) {
                 this.teamName = "";
             }
+
+            String iconToUse = this.iconUrl;
+            //try to add the failure icon if there is one
+            if (this.iconUrlFailure != null && payload.getBuildStatus() == SlackNotificationPayloadContent.BUILD_STATUS_FAILURE){
+                iconToUse = this.iconUrlFailure;
+            }
+
             String url = String.format("https://slack.com/api/chat.postMessage?token=%s&username=%s&icon_url=%s&channel=%s&text=%s&pretty=1",
                     this.token,
                     this.botName == null ? "" : URLEncoder.encode(this.botName, "UTF-8"),
-                    this.iconUrl == null ? "" : URLEncoder.encode(this.iconUrl, "UTF-8"),
+                    iconToUse == null ? "" : URLEncoder.encode(iconToUse, "UTF-8"),
                     this.channel == null ? "" : URLEncoder.encode(this.channel, "UTF-8"),
                     this.payload == null ? "" : URLEncoder.encode(payload.getBuildDescriptionWithLinkSyntax(), "UTF-8"),
                     "");
@@ -217,7 +225,13 @@ public class SlackNotificationImpl implements SlackNotification {
             WebHookPayload requestBody = new WebHookPayload();
             requestBody.setChannel(this.getChannel());
             requestBody.setUsername(this.getBotName());
-            requestBody.setIcon_url(this.getIconUrl());
+
+            String iconToUse = this.iconUrl;
+            //try to add the failure icon if there is one
+            if (this.iconUrlFailure != null && payload.getBuildStatus() == SlackNotificationPayloadContent.BUILD_STATUS_FAILURE){
+                iconToUse = this.iconUrlFailure;
+            }
+            requestBody.setIcon_url(iconToUse);
 
             HttpPost httppost = new HttpPost(url);
 
@@ -417,6 +431,14 @@ public class SlackNotificationImpl implements SlackNotification {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getIconUrlFailure() {
+        return this.iconUrlFailure;
+    }
+
+    public void setIconUrlFailure(String iconUrlFailure) {
+        this.iconUrlFailure = iconUrlFailure;
     }
 
     public String getBotName() {

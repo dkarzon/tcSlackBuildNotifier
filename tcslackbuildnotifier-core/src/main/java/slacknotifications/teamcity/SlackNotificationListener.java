@@ -75,6 +75,7 @@ public class SlackNotificationListener extends BuildServerAdapter {
         slackNotification.setTeamName(myMainSettings.getTeamName());
         slackNotification.setToken(myMainSettings.getToken());
         slackNotification.setIconUrl(myMainSettings.getIconUrl());
+        slackNotification.setIconUrlFailure(myMainSettings.getIconUrlFailure());
         slackNotification.setBotName(myMainSettings.getBotName());
 		slackNotification.setEnabled(slackNotificationConfig.getEnabled());
 		slackNotification.setBuildStates(slackNotificationConfig.getBuildStates());

@@ -30,6 +30,7 @@ public class SlackNotificationMainConfig {
 	public final String HOSTNAME_ONLY_REGEX = "^([^/]+)(?:/.*)?$";
 	private Pattern singleHostPattern, hostnameOnlyPattern ;
     private String iconUrl;
+    private String iconUrlFailure;
     private String botName;
     private Boolean showBuildAgent;
     private Boolean showElapsedBuildTime;
@@ -219,6 +220,16 @@ public class SlackNotificationMainConfig {
     public void setIconUrl(String iconUrl)
     {
         this.iconUrl = iconUrl;
+    }
+
+    public String getIconUrlFailure()
+    {
+        return iconUrlFailure;
+    }
+
+    public void setIconUrlFailure(String iconUrlFailure)
+    {
+        this.iconUrlFailure = iconUrlFailure;
     }
 
     public String getBotName()

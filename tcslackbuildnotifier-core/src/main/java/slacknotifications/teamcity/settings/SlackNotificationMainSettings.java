@@ -192,6 +192,11 @@ public class SlackNotificationMainSettings implements MainConfigProcessor {
         return this.slackNotificationMainConfig.getIconUrl();
     }
 
+    public String getIconUrlFailure()
+    {
+        return this.slackNotificationMainConfig.getIconUrlFailure();
+    }
+
     public String getBotName()
     {
         return this.slackNotificationMainConfig.getBotName();
